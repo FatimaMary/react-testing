@@ -20,7 +20,9 @@ test("can receive a new user and show it on a list", () => {
 
   user.click(button);
 
-  const name = screen.getByRole("cell", { name: "anto" });
+  user.debug();
+
+  const name = screen.getByRole("cell");
   const email = screen.getByRole("cell", { name: "anto@gmail.com" });
 
   expect(name).toBeInTheDocument();
