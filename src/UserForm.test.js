@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import UserForm from "./UserForm";
-import { wait } from "@testing-library/user-event/dist/utils";
 
 test("it shows two inputs and a button", () => {
   //render the component
