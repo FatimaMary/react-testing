@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import App from "./App";
 
-test("can receive a new user and show it on a list", () => {
+test("can receive a new user and show it on a list", async () => {
   render(<App />);
 
   const nameInput = screen.getByRole("textbox", {
@@ -13,6 +13,8 @@ test("can receive a new user and show it on a list", () => {
   });
   const button = screen.getByRole("button");
 
+  console.log(nameInput);
+
   user.click(nameInput);
   user.keyboard("anto");
   user.click(emailInput);
@@ -20,11 +22,11 @@ test("can receive a new user and show it on a list", () => {
 
   user.click(button);
 
-  user.debug();
+  await waitFor(() => {
+    const name = screen.getByRole("cell", { name: "anto" });
+    const email = screen.getByRole("cell", { name: "anto@gmail.com" });
 
-  const name = screen.getByRole("cell");
-  const email = screen.getByRole("cell", { name: "anto@gmail.com" });
-
-  expect(name).toBeInTheDocument();
-  expect(email).toBeInTheDocument();
+    expect(name).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+  });
 });
