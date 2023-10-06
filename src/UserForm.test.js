@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import UserForm from "./UserForm";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 test("it shows two inputs and a button", () => {
   //render the component
@@ -47,7 +48,7 @@ test("it calls onUserAdd when the form is submitted", () => {
   expect(mock).toHaveBeenCalledWith({ name: "anto", email: "anto@gmail.com" });
 });
 
-test("empties the two inputs when form is submitted", () => {
+test("empties the two inputs when form is submitted", async () => {
   render(<UserForm onUserAdd={() => {}} />);
 
   const nameInput = screen.getByRole("textbox", { name: /name/i });
@@ -60,7 +61,8 @@ test("empties the two inputs when form is submitted", () => {
   user.keyboard("anto@gmail.com");
 
   user.click(button);
-
-  expect(nameInput).toHaveValue("anto");
-  expect(emailInput).toHaveValue("");
+  await waitFor(() => {
+    expect(nameInput).toHaveValue("");
+    expect(emailInput).toHaveValue("");
+  });
 });
